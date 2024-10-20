@@ -46,6 +46,20 @@ class _HomeState extends State<Home> {
         await Future.delayed(const Duration(seconds: 1));
         pushView();
       });
+    } else if (timers.length <= 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CircleGrid(
+            timers: timers,
+            start: DateTime.now(),
+          ),
+        ),
+      ).then((_) async {
+        // Views being pushed before fully popped
+        await Future.delayed(const Duration(seconds: 1));
+        pushView();
+      });
     } else if (timers.length <= 5) {
       Navigator.push(
         context,
