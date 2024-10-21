@@ -1,4 +1,3 @@
-
 import 'package:flutter_time_test/resources/exports.dart';
 
 class SendData extends StatefulWidget {
@@ -32,14 +31,33 @@ class _SendDataState extends State<SendData> {
         title: const Text('Send Data'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            addAllTimers(data);
-            print(data.allData);
-            String filePath = await data.getFileName();
-            Share.shareXFiles([XFile(filePath)], subject: 'Test Data');
-          },
-          child: const Text('Finally, send the data'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            ElevatedButton(
+              onPressed: () async {
+                addAllTimers(data);
+                print(data.allData);
+                String filePath = await data.getFileName();
+                Share.shareXFiles([XFile(filePath)], subject: 'Test Data');
+              },
+              child: const Text('Send the data file'),
+            ),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Home(),
+                  ),
+                );
+              },
+              child: const Text('Redo test'),
+            ),
+            const Spacer(),
+          ],
         ),
       ),
     );

@@ -32,57 +32,41 @@ class _HomeState extends State<Home> {
     setState(() {
       startTestsEnabled = false;
     });
-    if (timers.isEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CircleGrid(
-            timers: timers,
-            start: DateTime.now(),
+    late Widget viewToPush;
+    switch (timers.length) {
+      case <= 1:
+        viewToPush = CircleGrid(
+          timers: timers,
+          start: DateTime.now(),
+        );
+      case > 1 && <= 3:
+        viewToPush = SquareGrid(
+          timers: timers,
+          start: DateTime.now(),
+        );
+      case > 3 && <= 5:
+        viewToPush = FlutterTests(
+          timers: timers,
+          start: DateTime.now(),
+        );
+      default:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SendData(
+              timers: timers,
+            ),
           ),
-        ),
-      ).then((_) async {
-        // Views being pushed before fully popped
-        await Future.delayed(const Duration(seconds: 1));
-        pushView();
-      });
-    } else if (timers.length <= 3) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CircleGrid(
-            timers: timers,
-            start: DateTime.now(),
-          ),
-        ),
-      ).then((_) async {
-        // Views being pushed before fully popped
-        await Future.delayed(const Duration(seconds: 1));
-        pushView();
-      });
-    } else if (timers.length <= 5) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => FlutterTests(
-            timers: timers,
-            start: DateTime.now(),
-          ),
-        ),
-      ).then((_) async {
-        // Views being pushed before fully popped
-        await Future.delayed(const Duration(seconds: 1));
-        pushView();
-      });
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SendData(
-            timers: timers,
-          ),
-        ),
-      );
+        );
+        return;
     }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => viewToPush))
+        .then(
+      (_) async {
+        // Views being pushed before fully popped
+        await Future.delayed(const Duration(seconds: 1));
+        pushView();
+      },
+    );
   }
 }

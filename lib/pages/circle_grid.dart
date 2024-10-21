@@ -21,6 +21,9 @@ class _CircleGridState extends State<CircleGrid> {
       testNumber: widget.timers.length,
     );
     timer.setStartTime(widget.start);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      timer.viewLoadedTimer();
+    });
   }
 
   // Define the list of colors
@@ -42,22 +45,17 @@ class _CircleGridState extends State<CircleGrid> {
 
   @override
   Widget build(BuildContext context) {
-    // Get the screen size
-    final screenSize = MediaQuery.of(context).size;
-    // Calculate the aspect ratio: width for 50 circles vs height for 100 circles
-    final childAspectRatio = screenSize.width / screenSize.height * (100 / 50);
-
     return VisibilityDetector(
-        key: const Key('circle_key'),
-        onVisibilityChanged: (visibilityInfo) {
-          num visiblePercentage = visibilityInfo.visibleFraction * 100;
-          if (visiblePercentage == 100) {
-            timer.stopTimer();
-            widget.timers.add(timer);
-            Navigator.pop(context);
-          }
-        },
-        child: Scaffold(
+      key: const Key('circle_key'),
+      onVisibilityChanged: (visibilityInfo) {
+        num visiblePercentage = visibilityInfo.visibleFraction * 100;
+        if (visiblePercentage == 100) {
+          timer.stopTimer();
+          widget.timers.add(timer);
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
         appBar: AppBar(title: const Text('Circle Grid')),
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -69,10 +67,12 @@ class _CircleGridState extends State<CircleGrid> {
             double circleAspectRatio = screenWidth / screenHeight * (100 / 50);
 
             return GridView.builder(
-              physics: const NeverScrollableScrollPhysics(), // Disable scrolling
+              physics:
+                  const NeverScrollableScrollPhysics(), // Disable scrolling
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 50, // 50 circles per row
-                childAspectRatio: circleAspectRatio, // Aspect ratio to fit all circles
+                childAspectRatio:
+                    circleAspectRatio, // Aspect ratio to fit all circles
               ),
               itemCount: 5000, // Total of 50 x 100 circles
               itemBuilder: (context, index) {
@@ -92,7 +92,8 @@ class _CircleGridState extends State<CircleGrid> {
                           : Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: randomColor, width: 2),
+                                border:
+                                    Border.all(color: randomColor, width: 2),
                               ),
                             ),
                     ),

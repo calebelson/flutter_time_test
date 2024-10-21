@@ -1,5 +1,6 @@
 class TimerModel {
   DateTime? initTime;
+  DateTime? viewLoadedTime;
   DateTime? finishTime;
   final String viewTested;
   final int testNumber;
@@ -14,6 +15,10 @@ class TimerModel {
     initTime = DateTime.now();
   }
 
+  void viewLoadedTimer() {
+    viewLoadedTime = DateTime.now();
+  }
+
   void stopTimer() {
     finishTime = DateTime.now();
   }
@@ -21,6 +26,13 @@ class TimerModel {
   Duration getDuration() {
     if (initTime != null && finishTime != null) {
       return finishTime!.difference(initTime!);
+    }
+    return Duration.zero;
+  }
+
+  Duration getTimeToLoad() {
+    if (initTime != null && viewLoadedTime != null) {
+      return viewLoadedTime!.difference(initTime!);
     }
     return Duration.zero;
   }

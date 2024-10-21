@@ -21,6 +21,8 @@ class MetricsData {
     allData.add('''
       ${timer.getNameAndTestNumber()}:
         start: ${timer.getStartTime()}
+        viewLoaded: ${timer.viewLoadedTime}
+        timerToLoad: ${timer.getTimeToLoad()}
         end: ${timer.getEndTime()}
         duration: ${timer.getDuration()}
       ''');

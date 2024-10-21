@@ -10,5 +10,6 @@ export 'package:flutter_time_test/pages/flutter_tests.dart';
 export 'package:flutter_time_test/pages/home.dart';
 export 'package:flutter_time_test/pages/send_data.dart';
 export 'package:flutter_time_test/pages/circle_grid.dart';
+export 'package:flutter_time_test/pages/square_grid.dart';
 export 'package:flutter_time_test/models/timer.dart';
 export 'package:flutter_time_test/models/metrics_data.dart';
